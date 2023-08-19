@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float movementSpeed = 5f;
     private bool isWalking;
 
+    // input support
+    [SerializeField] private GameInput gameInput;
+
     /// <summary>
     /// Gets whether or not the player is walking.
     /// </summary>
@@ -23,28 +26,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        // input support
-        Vector2 inputVector = new Vector2(0, 0);
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputVector.y = 1;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            inputVector.y = -1;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            inputVector.x = -1;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            inputVector.x = 1;
-        }
-
-        // normalize input vector so diagonal movement isn't faster
-        inputVector.Normalize();
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
         // move the player
         Vector3 dirVector = new Vector3(inputVector.x, 0, inputVector.y);
@@ -54,10 +36,10 @@ public class Player : MonoBehaviour
         isWalking = inputVector != Vector2.zero;
 
         // Rotate the player smoothly to face the direction of movement
-        float rotationSpeed = 3.5f;
+        float rotationSpeed = 5f;
         if (dirVector != Vector3.zero)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dirVector), 0.15F * rotationSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dirVector), Time.deltaTime * rotationSpeed);
         }
         
     }
