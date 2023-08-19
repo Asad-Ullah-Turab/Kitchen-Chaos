@@ -6,14 +6,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    #region Fields
     // movement support
     [SerializeField] private float movementSpeed = 5f;
     private bool isWalking;
 
-    #endregion
-
-    #region Properties
     /// <summary>
     /// Gets whether or not the player is walking.
     /// </summary>
@@ -21,9 +17,7 @@ public class Player : MonoBehaviour
     {
         get { return isWalking; }
     }
-    #endregion
 
-    #region Methods
     /// <summary>
     /// Gets called every frame.
     /// </summary>
@@ -68,5 +62,4 @@ public class Player : MonoBehaviour
         
     }
 
-    #endregion
 }
