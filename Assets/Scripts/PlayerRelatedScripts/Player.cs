@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,7 +8,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
+    public class OnSelectedCounterChangedEventArgs : EventArgs
+    {
+        public ClearCounter selectedCounter;
+    }
+    public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+    
     #region Fields
 
     // movement support
@@ -22,10 +28,17 @@ public class Player : MonoBehaviour
     // interaction support
     private Vector3 lastInteractDir;
     [SerializeField] private LayerMask counterLayerMask;
+    private ClearCounter selectedCounter;
 
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the singleton instance of the player.
+    /// </summary>
+    public static Player Instance { get; private set; }
+
     /// <summary>
     /// Gets whether or not the player is walking.
     /// </summary>
@@ -38,13 +51,39 @@ public class Player : MonoBehaviour
 
     #region Methods
 
+    private void Awake()
+    {
+        // Singleton support
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Start is called before the first frame update.
+    /// </summary>
+    private void Start()
+    {
+        gameInput.OnInteract += GameInput_OnInteract;
+    }
+
+    private void GameInput_OnInteract(object sender, System.EventArgs e)
+    {
+        selectedCounter?.Interact();
+    }
+
     /// <summary>
     /// Gets called every frame.
     /// </summary>
     private void Update()
     {
         HandleMovement();
-        HandleInteraction();
+        HandleCounterSelection();
     }
 
     /// <summary>
@@ -106,7 +145,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Handles player interaction.
     /// </summary>
-    private void HandleInteraction()
+    private void HandleCounterSelection()
     {
         // get the input vector
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
@@ -125,12 +164,33 @@ public class Player : MonoBehaviour
         {
             if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
             {
-                clearCounter.Interact();
+                if (clearCounter != selectedCounter)
+                {
+                    ChangeSelectedCounter(clearCounter);
+                }   
+            }
+            else
+            {
+                if (selectedCounter != null)
+                {
+                    ChangeSelectedCounter(null);
+                }
             }
         }
-
-        
+        else
+        {
+            if (selectedCounter != null)
+            {
+                ChangeSelectedCounter(null);
+            }
+        }
     } 
+
+    private void ChangeSelectedCounter(ClearCounter selectedCounter)
+    {
+        this.selectedCounter = selectedCounter;
+        OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { selectedCounter = this.selectedCounter });
+    }
 
     #endregion
 }
