@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IKitchenObjectParent
 {
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
@@ -30,6 +30,10 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask counterLayerMask;
     private ClearCounter selectedCounter;
 
+    // Kitchen Object parent support
+    private KitchenObject kitchenObject;
+    [SerializeField] private GameObject kitchenObjectFollowPoint;
+
     #endregion
 
     #region Properties
@@ -47,6 +51,15 @@ public class Player : MonoBehaviour
         get { return isWalking; }
     }
 
+    public bool HasKitchenObject { get { return kitchenObject != null; } }
+
+    public KitchenObject KitchenObject 
+    {
+        get { return kitchenObject; }
+        set { kitchenObject = value; }
+    }
+
+    public GameObject KitchenObjectFollowPoint { get { return kitchenObjectFollowPoint; } }
     #endregion
 
     #region Methods
@@ -74,7 +87,7 @@ public class Player : MonoBehaviour
 
     private void GameInput_OnInteract(object sender, System.EventArgs e)
     {
-        selectedCounter?.Interact();
+        selectedCounter?.Interact(this);
     }
 
     /// <summary>
