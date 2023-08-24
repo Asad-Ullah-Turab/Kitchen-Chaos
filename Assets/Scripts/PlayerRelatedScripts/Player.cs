@@ -10,7 +10,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 {
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter selectedCounter;
+        public BaseCounter selectedCounter;
     }
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     // interaction support
     private Vector3 lastInteractDir;
     [SerializeField] private LayerMask counterLayerMask;
-    private ClearCounter selectedCounter;
+    private BaseCounter selectedCounter;
 
     // Kitchen Object parent support
     private KitchenObject kitchenObject;
@@ -175,11 +175,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
                             
         if(hitSomething)
         {
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if (raycastHit.transform.TryGetComponent(out BaseCounter counter))
             {
-                if (clearCounter != selectedCounter)
+                if (counter != selectedCounter)
                 {
-                    ChangeSelectedCounter(clearCounter);
+                    ChangeSelectedCounter(counter);
                 }   
             }
             else
@@ -199,7 +199,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
     } 
 
-    private void ChangeSelectedCounter(ClearCounter selectedCounter)
+    private void ChangeSelectedCounter(BaseCounter selectedCounter)
     {
         this.selectedCounter = selectedCounter;
         OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { selectedCounter = this.selectedCounter });

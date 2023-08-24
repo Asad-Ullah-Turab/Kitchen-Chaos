@@ -2,34 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClearCounter : MonoBehaviour, IKitchenObjectParent
+public class ClearCounter : BaseCounter
 {
-    [SerializeField] private KitchenObjectSO kitchenObjectSO;
-    [SerializeField] private GameObject kitchenObjectFollowPoint;
-
-    private KitchenObject kitchenObject;
-
-    public GameObject KitchenObjectFollowPoint { get { return kitchenObjectFollowPoint; } }
-    public KitchenObject KitchenObject 
+    public override void Interact(Player player)
     {
-        get { return kitchenObject; } 
-        set { kitchenObject = value; }
-    }
-    public bool HasKitchenObject
-    {
-        get { return kitchenObject != null; }
-    }
-
-    public void Interact(Player player)
-    {
-        if (kitchenObject == null)
+        if (HasKitchenObject)
         {
-            kitchenObject = Instantiate(kitchenObjectSO.prefab, kitchenObjectFollowPoint.transform.position, Quaternion.identity, kitchenObjectFollowPoint.transform).GetComponent<KitchenObject>();
-            kitchenObject.KitchenObjectParent = this;    
+            if (!player.HasKitchenObject)
+            {
+                KitchenObject.KitchenObjectParent = player;
+            }
         }
         else
         {
-            kitchenObject.KitchenObjectParent = player;
+            if (player.HasKitchenObject)
+            {
+                player.KitchenObject.KitchenObjectParent = this;
+            }
         }
     }
 } 
