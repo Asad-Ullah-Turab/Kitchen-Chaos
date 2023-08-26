@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectFollowPoint: {fileID: 1295044177416305160}
-  kitchenObjectSO: {fileID: 11400000, guid: 58b17fb791ac94f4b936462e31ae52fa, type: 2}
+  kitchenObjectSO: {fileID: 0}
 --- !u!1001 &4081139904500068637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -429,7 +429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f9c140200023574594778b7236eb6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
   containerCounter: {fileID: 8578428519980215474}
 --- !u!4 &5279053691970909875 stripped
 Transform:
