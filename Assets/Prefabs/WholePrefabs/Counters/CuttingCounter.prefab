@@ -321,6 +321,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2526479092333139197, guid: 32646a39312b07d42a3c6bbf6f28270d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.291
+      objectReference: {fileID: 0}
     - target: {fileID: 7270994762012343448, guid: 32646a39312b07d42a3c6bbf6f28270d,
         type: 3}
       propertyPath: m_Name
@@ -362,6 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectFollowPoint: {fileID: 7410853172650038337}
+  cutKitchenObjectSo: {fileID: 11400000, guid: 9569bc6297e52524db4b2a83db1b259d, type: 2}
 --- !u!4 &4661699267476044572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1872667457039253644, guid: 32646a39312b07d42a3c6bbf6f28270d,

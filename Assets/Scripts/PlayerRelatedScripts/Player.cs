@@ -83,6 +83,12 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private void Start()
     {
         gameInput.OnInteract += GameInput_OnInteract;
+        gameInput.OnAltInteract += GameInput_OnAltInteract;
+    }
+
+    private void GameInput_OnAltInteract(object sender, EventArgs e)
+    {
+        selectedCounter?.AltInteract(this);
     }
 
     private void GameInput_OnInteract(object sender, System.EventArgs e)

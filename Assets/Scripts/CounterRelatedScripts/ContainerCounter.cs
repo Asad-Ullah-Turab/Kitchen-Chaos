@@ -18,9 +18,5 @@ public class ContainerCounter : BaseCounter
 
             ObjectSpawnedEvent?.Invoke(this, EventArgs.Empty);
         }
-        else
-        {
-            Debug.Log("Player already has a kitchen object!");
-        }
     }
 }
