@@ -14,7 +14,7 @@ public class KitchenObject : MonoBehaviour
         get { return kitchenObjectParent; }
         set 
         {
-            if (value.HasKitchenObject && kitchenObjectParent != null)
+            if (value.HasKitchenObject)
             {
                 Debug.LogError("Counter already has a kitchen object on it!");
             }
@@ -43,25 +43,14 @@ public class KitchenObject : MonoBehaviour
 
     private void ClearParent()
     {
-        kitchenObjectParent = null;
+        kitchenObjectParent.KitchenObject = null;
     }
 
-    //public void Swap(KitchenObject otherKitchenObject)
-    //{
-    //    // Swap the kitchen object with the other kitchen object
+    public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent kitchenObjectParent)
+    {
+        KitchenObject kitchenObject = Instantiate(kitchenObjectSO.prefab, kitchenObjectParent.KitchenObjectFollowPoint.transform.position, Quaternion.identity).GetComponent<KitchenObject>();
+        kitchenObject.KitchenObjectParent = kitchenObjectParent;
 
-    //    // swap parents
-    //    otherKitchenObject.transform.SetParent(this.kitchenObjectParent.KitchenObjectFollowPoint.transform);
-    //    otherKitchenObject.transform.localPosition = Vector3.zero;
-
-    //    transform.SetParent(otherKitchenObject.kitchenObjectParent.KitchenObjectFollowPoint.transform);
-    //    transform.localPosition = Vector3.zero;
-
-    //    // correct data
-    //    otherKitchenObject.kitchenObjectParent = this.kitchenObjectParent;
-    //    otherKitchenObject.kitchenObjectParent.KitchenObject = this;
-
-    //    kitchenObjectParent = otherKitchenObject.kitchenObjectParent;
-    //    kitchenObjectParent.KitchenObject = this;
-    //}
+        return kitchenObject;
+    }
 }

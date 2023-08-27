@@ -124,7 +124,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             Vector3 dirVectorZ = new Vector3(0, 0, dirVector.z).normalized;
 
             // check if the player can move in the x direction
-            bool canMoveX = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, dirVectorX, moveDistance);
+            bool canMoveX = dirVectorX.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, dirVectorX, moveDistance);
             if (canMoveX)
             {
                 dirVector = dirVectorX;
@@ -133,7 +133,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             else
             {
                 // check if the player can move in the z direction
-                bool canMoveZ = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, dirVectorZ, moveDistance);
+                bool canMoveZ = dirVectorZ.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, dirVectorZ, moveDistance);
                 if (canMoveZ)
                 {
                     dirVector = dirVectorZ;

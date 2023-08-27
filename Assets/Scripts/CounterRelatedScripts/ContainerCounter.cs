@@ -13,10 +13,10 @@ public class ContainerCounter : BaseCounter
     {
         if (!player.HasKitchenObject)
         {
-            KitchenObject = Instantiate(kitchenObjectSO.prefab, KitchenObjectFollowPoint.transform.position, Quaternion.identity, KitchenObjectFollowPoint.transform).GetComponent<KitchenObject>();
-            KitchenObject.KitchenObjectParent = player;
+            KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
 
-            ObjectSpawnedEvent?.Invoke(this, EventArgs.Empty);
+            // For animation
+            ObjectSpawnedEvent(this, EventArgs.Empty);
         }
     }
 }
