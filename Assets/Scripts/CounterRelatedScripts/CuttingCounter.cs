@@ -24,6 +24,7 @@ public class CuttingCounter : BaseCounter
             if (!player.HasKitchenObject)
             {
                 KitchenObject.KitchenObjectParent = player;
+                ResetCuttingProgress();
             }
         }
         else
@@ -31,12 +32,7 @@ public class CuttingCounter : BaseCounter
             if (player.HasKitchenObject && HasRecipeWithInput(player.KitchenObject.KitchenObjectSO))
             {
                 player.KitchenObject.KitchenObjectParent = this;
-                cuttingProgressCounter = 0;
-                OnCuttingProgressChanged?.Invoke(this,
-                    new OnCuttingProgressChangedEventArgs
-                    {
-                        progressNormalzied = cuttingProgressCounter / (float)GetCutRecipeForInput(KitchenObject.KitchenObjectSO).cuttingCounterMax
-                    });
+                ResetCuttingProgress();
             }
         }
     }
@@ -99,5 +95,15 @@ public class CuttingCounter : BaseCounter
                 {
                     progressNormalzied = cuttingProgressCounter / (float)GetCutRecipeForInput(KitchenObject.KitchenObjectSO).cuttingCounterMax
                 });
+    }
+
+    private void ResetCuttingProgress()
+    {   
+        cuttingProgressCounter = 0;
+        OnCuttingProgressChanged?.Invoke(this,
+                               new OnCuttingProgressChangedEventArgs
+                               {
+                                   progressNormalzied = cuttingProgressCounter
+                               });
     }
 }
